@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import '/data/dummy_data.dart';
-import '/screens/meals.dart';
-//import 'screens/categories.dart';
+//import '/data/dummy_data.dart';
+//import '/screens/meals.dart';
+import 'screens/categories.dart';
 
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
@@ -24,12 +24,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      //home: CategoriesScreen(),
-      home: MealsScreen(
-        title: 'Some category..',
-        //meals: [], -> empy fun check
-        meals: dummyMeals,
-      ),
+      home: CategoriesScreen(),
+      // home: MealsScreen(
+      //   title: 'Some category..',
+      //   //meals: [], -> empy fun check
+      //   meals: dummyMeals,
+      // ),
     );
   }
 }
