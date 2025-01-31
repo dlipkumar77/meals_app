@@ -14,13 +14,29 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int selectPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
+
+  void _showInfoMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
   void _toggleMealFavoriteStatus(Meal meal) {
     var isExisting = _favoriteMeals.contains(meal);
 
     if (isExisting) {
-      _favoriteMeals.remove(meal);
+      setState(() {
+        _favoriteMeals.remove(meal);
+      });
+      _showInfoMessage('Meal is no longer favorite.');
     } else {
-      _favoriteMeals.add(meal);
+      setState(() {
+        _favoriteMeals.add(meal);
+        _showInfoMessage('Marked as a favorite');
+      });
     }
   }
 
@@ -39,7 +55,7 @@ class _TabsScreenState extends State<TabsScreen> {
     if (selectPageIndex == 1) {
       activePage = MealsScreen(
         // title: 'Favorites', not set title because scaffold two times uses avoid home page
-        meals: [],
+        meals: _favoriteMeals,
         onToggleFavorie: _toggleMealFavoriteStatus,
       );
       activePageTitle = 'Your Favorites';
