@@ -1,9 +1,19 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
+import '/data/dummy_data.dart';
 import '/screens/filters.dart';
 import '/widgets/main_drawer.dart';
 import '/models/meal.dart';
 import '/screens/categories.dart';
 import '/screens/meals.dart';
+
+const kInitialFilters = {
+  Filter.glutenFree: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false,
+};
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -16,6 +26,8 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int selectPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
+
+  Map<Filter, bool> _selectedFilters = kInitialFilters;
 
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -48,17 +60,25 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void _setScreen(String identifier) {
+  void _setScreen(String identifier) async {
     Navigator.of(context)
         .pop(); // back button press  drawer open so this way solve that bug
     if (identifier == 'filters') {
       //pushReplacement is avoid back press
       // after fliter enum push is future value get
-      final result = Navigator.of(context).push<Map<Filter, bool>>(
-        MaterialPageRoute(builder: (ctx) => FiltersScreen()),
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
+        MaterialPageRoute(
+          builder: (ctx) => FiltersScreen(
+            currentFilter: _selectedFilters,
+          ),
+        ),
       );
 
-      print(result);
+      setState(() {
+        _selectedFilters = result ?? kInitialFilters;
+      });
+
+      // print(result);
     }
     //  else {
     //   Navigator.of(context).pop();
@@ -67,8 +87,25 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final avilabelMeals = dummyMeals.where((meal) {
+      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
+        return false;
+      }
+      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+        return false;
+      }
+      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+        return false;
+      }
+      if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
+        return false;
+      }
+      return true;
+    }).toList();
+
     Widget activePage = CategoriesScreen(
       onToggleFavorie: _toggleMealFavoriteStatus,
+      availableMeals: avilabelMeals,
     );
     var activePageTitle = 'Categories';
     if (selectPageIndex == 1) {
