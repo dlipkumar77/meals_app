@@ -29,6 +29,7 @@ class _FilterScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         title: Text('Your Filters'),
       ),
+      // i dont nee drawer menu symobol
       // drawer: MainDrawer(onSelectScreen: (identifier) {
       //   Navigator.of(context).pop();
       //   if (identifier == 'filters') {

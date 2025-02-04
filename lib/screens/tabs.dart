@@ -53,9 +53,12 @@ class _TabsScreenState extends State<TabsScreen> {
         .pop(); // back button press  drawer open so this way solve that bug
     if (identifier == 'filters') {
       //pushReplacement is avoid back press
-      Navigator.of(context).push(
+      // after fliter enum push is future value get
+      final result = Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(builder: (ctx) => FiltersScreen()),
       );
+
+      print(result);
     }
     //  else {
     //   Navigator.of(context).pop();
