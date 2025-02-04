@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/screens/filters.dart';
 import '/widgets/main_drawer.dart';
 import '/models/meal.dart';
 import '/screens/categories.dart';
@@ -48,10 +49,17 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _setScreen(String identifier) {
+    Navigator.of(context)
+        .pop(); // back button press  drawer open so this way solve that bug
     if (identifier == 'filters') {
-    } else {
-      Navigator.of(context).pop();
+      //pushReplacement is avoid back press
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (ctx) => FiltersScreen()),
+      );
     }
+    //  else {
+    //   Navigator.of(context).pop();
+    // }
   }
 
   @override
