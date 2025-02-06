@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '/providers/filters_provider.dart';
 import '/providers/favorites_provider.dart';
-import '/providers/meals_provider.dart';
+//import '/providers/meals_provider.dart';
 //import '/data/dummy_data.dart';
 import '/screens/filters.dart';
 import '/widgets/main_drawer.dart';
