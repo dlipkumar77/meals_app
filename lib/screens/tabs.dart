@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '/providers/filters_provider.dart';
 import '/providers/favorites_provider.dart';
 import '/providers/meals_provider.dart';
 //import '/data/dummy_data.dart';
@@ -11,13 +12,15 @@ import '/widgets/main_drawer.dart';
 import '/screens/categories.dart';
 import '/screens/meals.dart';
 
+/*
+
 const kInitialFilters = {
   Filter.glutenFree: false,
   Filter.lactoseFree: false,
   Filter.vegetarian: false,
   Filter.vegan: false,
 };
-
+*/
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
   @override
@@ -30,7 +33,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   int selectPageIndex = 0;
   //final List<Meal> _favoriteMeals = [];
 
-  Map<Filter, bool> _selectedFilters = kInitialFilters;
+  //Map<Filter, bool> _selectedFilters = kInitialFilters;
 /*
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -73,17 +76,21 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     if (identifier == 'filters') {
       //pushReplacement is avoid back press
       // after fliter enum push is future value get
-      final result = await Navigator.of(context).push<Map<Filter, bool>>(
+      //final result = await Navigator.of(context).push<Map<Filter, bool>>(
+      await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
           builder: (ctx) => FiltersScreen(
-            currentFilter: _selectedFilters,
-          ),
+              //currentFilter: _selectedFilters,
+              ),
         ),
       );
 
+      /*
       setState(() {
         _selectedFilters = result ?? kInitialFilters;
       });
+
+      */
 
       // print(result);
     }
@@ -95,17 +102,18 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
+    final activeFilters = ref.watch(filtersProvider);
     final avilabelMeals = meals.where((meal) {
-      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
+      if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
         return false;
       }
-      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+      if (activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
         return false;
       }
-      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+      if (activeFilters[Filter.vegetarian]! && !meal.isVegetarian) {
         return false;
       }
-      if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
+      if (activeFilters[Filter.vegan]! && !meal.isVegan) {
         return false;
       }
       return true;
