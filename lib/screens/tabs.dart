@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:meals_app/providers/meals_provider.dart';
+import '/providers/favorites_provider.dart';
+import '/providers/meals_provider.dart';
 //import '/data/dummy_data.dart';
 import '/screens/filters.dart';
 import '/widgets/main_drawer.dart';
@@ -27,7 +28,7 @@ class TabsScreen extends ConsumerStatefulWidget {
 
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int selectPageIndex = 0;
-  final List<Meal> _favoriteMeals = [];
+  //final List<Meal> _favoriteMeals = [];
 
   Map<Filter, bool> _selectedFilters = kInitialFilters;
 
@@ -39,6 +40,8 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       ),
     );
   }
+
+  /*
 
   void _toggleMealFavoriteStatus(Meal meal) {
     var isExisting = _favoriteMeals.contains(meal);
@@ -55,6 +58,8 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       });
     }
   }
+
+  */
 
   void _selectPage(index) {
     setState(() {
@@ -107,15 +112,16 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     }).toList();
 
     Widget activePage = CategoriesScreen(
-      onToggleFavorie: _toggleMealFavoriteStatus,
+      // onToggleFavorie: _toggleMealFavoriteStatus,
       availableMeals: avilabelMeals,
     );
     var activePageTitle = 'Categories';
     if (selectPageIndex == 1) {
+      final favoritesMeal = ref.watch(favoriteMealProvider);
       activePage = MealsScreen(
         // title: 'Favorites', not set title because scaffold two times uses avoid home page
-        meals: _favoriteMeals,
-        onToggleFavorie: _toggleMealFavoriteStatus,
+        meals: favoritesMeal,
+        //onToggleFavorie: _toggleMealFavoriteStatus,
       );
       activePageTitle = 'Your Favorites';
     }
