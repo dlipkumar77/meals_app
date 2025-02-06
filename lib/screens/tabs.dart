@@ -7,7 +7,7 @@ import '/providers/meals_provider.dart';
 //import '/data/dummy_data.dart';
 import '/screens/filters.dart';
 import '/widgets/main_drawer.dart';
-import '/models/meal.dart';
+//import '/models/meal.dart';
 import '/screens/categories.dart';
 import '/screens/meals.dart';
 
@@ -31,7 +31,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   //final List<Meal> _favoriteMeals = [];
 
   Map<Filter, bool> _selectedFilters = kInitialFilters;
-
+/*
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -41,7 +41,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
     );
   }
 
-  /*
+  
 
   void _toggleMealFavoriteStatus(Meal meal) {
     var isExisting = _favoriteMeals.contains(meal);
