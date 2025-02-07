@@ -5,7 +5,7 @@ import '/screens/meals.dart';
 import '/widgets/category_grid_item.dart';
 import '/data/dummy_data.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   CategoriesScreen({
     super.key,
     //required this.onToggleFavorie,
@@ -15,9 +15,32 @@ class CategoriesScreen extends StatelessWidget {
   //final void Function(Meal meal) onToggleFavorie;
   List<Meal> availableMeals;
 
+  @override
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+      lowerBound: 0,
+      upperBound: 1,
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   void _selectCategory(BuildContext context, Category category) {
     //final filteredMeals = dummyMeals - now use available meals
-    final filteredMeals = availableMeals
+    final filteredMeals = widget.availableMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
 
